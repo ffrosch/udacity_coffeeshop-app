@@ -13,21 +13,22 @@ CORS(app)
 
 
 def populate_db():
-    drink1 = {'title':'Americano',
-              'recipe':[{'color': 'black', 'name': 'coffee', 'parts': 1}]}
-    drink2 = {'title':'Cappuccino',
-              'recipe':[{'color': 'black', 'name': 'coffee', 'parts': 2},
-                        {'color': 'white', 'name': 'milk', 'parts': 1}]}
-    drink3 = {'title':'White Mocha',
-              'recipe':[{'color': 'black', 'name': 'coffee', 'parts': 2},
-                        {'color': 'white', 'name': 'milk', 'parts': 1},
-                        {'color': 'brown', 'name': 'white sirup', 'parts': 1}]}
+    drink1 = {'title': 'Americano',
+              'recipe': [{'color': 'black', 'name': 'coffee', 'parts': 1}]}
+    drink2 = {'title': 'Cappuccino',
+              'recipe': [{'color': 'black', 'name': 'coffee', 'parts': 2},
+                         {'color': 'white', 'name': 'milk', 'parts': 1}]}
+    drink3 = {'title': 'White Mocha',
+              'recipe': [{'color': 'black', 'name': 'coffee', 'parts': 2},
+                         {'color': 'white', 'name': 'milk', 'parts': 1},
+                         {'color': 'brown', 'name': 'white sirup', 'parts': 1}]}
 
     for drink in (drink1, drink2, drink3):
         new_drink = Drink()
         new_drink.title = drink['title']
         new_drink.recipe = json.dumps(drink['recipe'])
         new_drink.insert()
+
 
 '''
 @TODO uncomment the following line to initialize the datbase
@@ -37,7 +38,7 @@ def populate_db():
 db_drop_and_create_all()
 populate_db()
 
-## ROUTES
+# ROUTES
 '''
 @DONE implement endpoint
     GET /drinks
@@ -46,6 +47,8 @@ populate_db()
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
+
+
 @app.route('/drinks', methods=['GET'])
 def get_drinks():
     drinks = Drink.query.order_by(Drink.title).all()
@@ -58,6 +61,7 @@ def get_drinks():
 
     return jsonify(data), 200
 
+
 '''
 @TODO implement endpoint
     GET /drinks-detail
@@ -66,6 +70,8 @@ def get_drinks():
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
+
+
 @app.route('/drinks-detail', methods=['GET'])
 def get_drinks_detail():
     drinks = Drink.query.order_by(Drink.title).all()
@@ -88,6 +94,8 @@ def get_drinks_detail():
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the newly created drink
         or appropriate status code indicating reason for failure
 '''
+
+
 @app.route('/drinks', methods=['POST'])
 def post_drink():
     body = request.get_json()
@@ -97,7 +105,7 @@ def post_drink():
         title = body['title']
         recipe = body['recipe']
         # Check recipe is in valid format
-        if not isinstance(recipe, list) or len(recipe)==0:
+        if not isinstance(recipe, list) or len(recipe) == 0:
             raise Exception
     except:
         abort(400)
@@ -127,6 +135,8 @@ def post_drink():
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
         or appropriate status code indicating reason for failure
 '''
+
+
 @app.route('/drinks/<int:id>', methods=['PATCH'])
 def patch_drink(id):
     drink = Drink.query.get(id)
@@ -140,7 +150,7 @@ def patch_drink(id):
 
         if 'recipe' in body:
             new_recipe = body['recipe']
-            if not isinstance(new_recipe, list) or len(new_recipe)==0:
+            if not isinstance(new_recipe, list) or len(new_recipe) == 0:
                 abort(400)
             drink.recipe = new_recipe
 
@@ -165,6 +175,8 @@ def patch_drink(id):
     returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted record
         or appropriate status code indicating reason for failure
 '''
+
+
 @app.route('/drinks/<int:id>', methods=['DELETE'])
 def delete_drink(id):
     drink = Drink.query.get(id)
@@ -182,7 +194,7 @@ def delete_drink(id):
     return jsonify(data), 200
 
 
-## Error Handling
+# Error Handling
 '''
 @DONE implement error handlers using the @app.errorhandler(error) decorator
     each error handler should return (with approprate messages):
@@ -194,37 +206,42 @@ def delete_drink(id):
 
 '''
 
+
 @app.errorhandler(400)
 def unprocessable(error):
     return jsonify({
-                    "success": False,
-                    "error": 400,
-                    "message": "bad request"
-                    }), 400
+        "success": False,
+        "error": 400,
+        "message": "bad request"
+    }), 400
+
 
 @app.errorhandler(404)
 def unprocessable(error):
     return jsonify({
-                    "success": False,
-                    "error": 404,
-                    "message": "resource not found"
-                    }), 404
+        "success": False,
+        "error": 404,
+        "message": "resource not found"
+    }), 404
+
 
 @app.errorhandler(422)
 def unprocessable(error):
     return jsonify({
-                    "success": False,
-                    "error": 422,
-                    "message": "unprocessable"
-                    }), 422
+        "success": False,
+        "error": 422,
+        "message": "unprocessable"
+    }), 422
+
 
 @app.errorhandler(500)
 def unprocessable(error):
     return jsonify({
-                    "success": False,
-                    "error": 500,
-                    "message": "internal server error"
-                    }), 500
+        "success": False,
+        "error": 500,
+        "message": "internal server error"
+    }), 500
+
 
 '''
 @TODO implement error handler for AuthError
