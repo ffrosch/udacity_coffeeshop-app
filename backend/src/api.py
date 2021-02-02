@@ -143,7 +143,9 @@ def patch_drink(id):
             if not isinstance(new_recipe, list) or len(new_recipe)==0:
                 abort(400)
             drink.recipe = new_recipe
+
         drink.update()
+
     except:
         abort(422)
 
@@ -163,6 +165,21 @@ def patch_drink(id):
     returns status code 200 and json {"success": True, "delete": id} where id is the id of the deleted record
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks/<int:id>', methods=['DELETE'])
+def delete_drink(id):
+    drink = Drink.query.get(id)
+    if drink is None:
+        abort(404)
+
+    try:
+        drink.delete()
+    except:
+        abort(500)
+
+    data = {'success': True,
+            'delete': drink.id}
+
+    return jsonify(data), 200
 
 
 ## Error Handling
