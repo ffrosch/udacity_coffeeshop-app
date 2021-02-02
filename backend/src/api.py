@@ -130,24 +130,19 @@ def post_drinks():
 @app.route('/drinks/<int:id>', methods=['PATCH'])
 def patch_drinks(id):
     drink = Drink.query.get(id)
-    body = request.get_json()
-
     if drink is None:
         abort(404)
 
+    body = request.get_json()
     try:
-        # Check presence of necessary attributes
-        new_title = body['title']
-        new_recipe = body['recipe']
-        # Check recipe is in valid format
-        if not isinstance(new_recipe, list) or len(new_recipe)==0:
-            raise Exception
-    except:
-        abort(400)
+        if 'title' in body:
+            drink.title = body['title']
 
-    try:
-        drink.title = new_title
-        drink.recipe = new_recipe
+        if 'recipe' in body:
+            new_recipe = body['recipe']
+            if not isinstance(new_recipe, list) or len(new_recipe)==0:
+                abort(400)
+            drink.recipe = new_recipe
         drink.update()
     except:
         abort(422)
