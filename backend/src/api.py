@@ -39,7 +39,7 @@ def populate_db():
 
 ## ROUTES
 '''
-@TODO implement endpoint
+@DONE implement endpoint
     GET /drinks
         it should be a public endpoint
         it should contain only the drink.short() data representation
@@ -66,6 +66,17 @@ def get_drinks():
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks-detail', methods=['GET'])
+def get_drinks_detail():
+    drinks = Drink.query.all()
+    data = {'success': True,
+            'drinks': [drink.long() for drink in drinks]}
+
+    # Abort if the database query returned no drinks
+    if len(drinks) == 0:
+        abort(404)
+
+    return jsonify(data), 200
 
 
 '''
