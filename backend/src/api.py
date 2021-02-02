@@ -123,6 +123,35 @@ def post_drinks():
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks/<int:id>', methods=['PATCH'])
+def patch_drinks(id):
+    drink = Drink.query.get(id)
+    body = request.get_json()
+
+    if drink is None:
+        abort(404)
+
+    try:
+        # Check presence of necessary attributes
+        new_title = body['title']
+        new_recipe = body['recipe']
+        # Check recipe is in valid format
+        if not isinstance(new_recipe, list) or len(new_recipe)==0:
+            raise Exception
+    except:
+        abort(400)
+
+    try:
+        drink.title = new_title
+        drink.recipe = new_recipe
+        drink.update()
+    except:
+        abort(422)
+
+    data = {'success': True,
+            'drinks': [drink.long()]}
+
+    return jsonify(data), 200
 
 
 '''
