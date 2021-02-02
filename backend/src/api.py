@@ -93,8 +93,12 @@ def post_drinks():
     body = request.get_json()
 
     try:
+        # Check presence of necessary attributes
         title = body['title']
         recipe = body['recipe']
+        # Check recipe is in valid format
+        if not isinstance(recipe, list) or len(recipe)==0:
+            raise Exception
     except:
         abort(400)
 
