@@ -16,8 +16,9 @@ We recommend working within a virtual environment whenever using Python for proj
 
 Once you have your virtual environment setup and running, install dependencies by naviging to the `/backend` directory and running:
 
+> `--no-deps` is used to avoid a package conflict between python-jose-cryptodome and pycryptodome on windows
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt --no-deps
 ```
 
 This will install all of the required packages we selected within the `requirements.txt` file.
@@ -69,7 +70,7 @@ The `--reload` flag will detect file changes and restart the server automaticall
         - can `get:drinks-detail`
     - Manager
         - can perform all actions
-7. Test your endpoints with [Postman](https://getpostman.com). 
+7. Test your endpoints with [Postman](https://getpostman.com).
     - Register 2 users - assign the Barista role to one and Manager role to the other.
     - Sign into each account and make note of the JWT.
     - Import the postman collection `./starter_code/backend/udacity-fsnd-udaspicelatte.postman_collection.json`
