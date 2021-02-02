@@ -48,7 +48,7 @@ def populate_db():
 '''
 @app.route('/drinks', methods=['GET'])
 def get_drinks():
-    drinks = Drink.query.all()
+    drinks = Drink.query.order_by(Drink.title).all()
     data = {'success': True,
             'drinks': [drink.short() for drink in drinks]}
 
@@ -68,7 +68,7 @@ def get_drinks():
 '''
 @app.route('/drinks-detail', methods=['GET'])
 def get_drinks_detail():
-    drinks = Drink.query.all()
+    drinks = Drink.query.order_by(Drink.title).all()
     data = {'success': True,
             'drinks': [drink.long() for drink in drinks]}
 
