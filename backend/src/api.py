@@ -89,7 +89,7 @@ def get_drinks_detail():
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks', methods=['POST'])
-def post_drinks():
+def post_drink():
     body = request.get_json()
 
     try:
@@ -128,7 +128,7 @@ def post_drinks():
         or appropriate status code indicating reason for failure
 '''
 @app.route('/drinks/<int:id>', methods=['PATCH'])
-def patch_drinks(id):
+def patch_drink(id):
     drink = Drink.query.get(id)
     if drink is None:
         abort(404)
