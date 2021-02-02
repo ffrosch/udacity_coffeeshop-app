@@ -11,12 +11,31 @@ app = Flask(__name__)
 setup_db(app)
 CORS(app)
 
+
+def populate_db():
+    drink1 = {'title':'Americano',
+              'recipe':[{'color': 'black', 'name': 'coffee', 'parts': 1}]}
+    drink2 = {'title':'Cappuccino',
+              'recipe':[{'color': 'black', 'name': 'coffee', 'parts': 2},
+                        {'color': 'white', 'name': 'milk', 'parts': 1}]}
+    drink3 = {'title':'White Mocha',
+              'recipe':[{'color': 'black', 'name': 'coffee', 'parts': 2},
+                        {'color': 'white', 'name': 'milk', 'parts': 1},
+                        {'color': 'brown', 'name': 'white sirup', 'parts': 1}]}
+
+    for drink in (drink1, drink2, drink3):
+        new_drink = Drink()
+        new_drink.title = drink['title']
+        new_drink.recipe = json.dumps(drink['recipe'])
+        new_drink.insert()
+
 '''
 @TODO uncomment the following line to initialize the datbase
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
 # db_drop_and_create_all()
+# populate_db()
 
 ## ROUTES
 '''
