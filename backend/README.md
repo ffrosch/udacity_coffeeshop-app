@@ -38,7 +38,18 @@ From within the `./src` directory first ensure you are working using your create
 Each time you open a new terminal session, run:
 
 ```bash
-export FLASK_APP=api.py;
+export FLASK_APP='api.py'
+export AUTH0_DOMAIN='YOUR_DOMAIN'
+export API_AUDIENCE='YOUR_AUDIENCE'
+```
+
+Alternatively install `python-dotenv` and create an `.env` file within the root
+directory `.` of the app with the following content:
+
+```
+FLASK_APP='src/api.py'
+AUTH0_DOMAIN='YOUR_DOMAIN'
+API_AUDIENCE='YOUR_AUDIENCE'
 ```
 
 To run the server, execute:
