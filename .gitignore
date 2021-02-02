@@ -1,7 +1,10 @@
-venv/
+env/
 .vscode/
 __pycache__/
 test.db
+*code-workspace
+passwords.txt
+.env
 
 # OS generated files #
 ######################
