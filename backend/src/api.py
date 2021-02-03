@@ -74,7 +74,7 @@ def get_drinks():
 
 @app.route('/drinks-detail', methods=['GET'])
 @requires_auth('get:drinks-detail')
-def get_drinks_detail():
+def get_drinks_detail(jwt):
     drinks = Drink.query.order_by(Drink.title).all()
     data = {'success': True,
             'drinks': [drink.long() for drink in drinks]}
@@ -99,7 +99,7 @@ def get_drinks_detail():
 
 @app.route('/drinks', methods=['POST'])
 @requires_auth('post:drinks')
-def post_drink():
+def post_drink(jwt):
     body = request.get_json()
 
     try:
@@ -141,7 +141,7 @@ def post_drink():
 
 @app.route('/drinks/<int:id>', methods=['PATCH'])
 @requires_auth('patch:drinks')
-def patch_drink(id):
+def patch_drink(jwt, id):
     drink = Drink.query.get(id)
     if drink is None:
         abort(404)
@@ -182,7 +182,7 @@ def patch_drink(id):
 
 @app.route('/drinks/<int:id>', methods=['DELETE'])
 @requires_auth('delete:drinks')
-def delete_drink(id):
+def delete_drink(jwt, id):
     drink = Drink.query.get(id)
     if drink is None:
         abort(404)
