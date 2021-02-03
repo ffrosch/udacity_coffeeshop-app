@@ -63,7 +63,7 @@ def get_drinks():
 
 
 '''
-@TODO implement endpoint
+@DONE implement endpoint
     GET /drinks-detail
         it should require the 'get:drinks-detail' permission
         it should contain the drink.long() data representation
@@ -73,6 +73,7 @@ def get_drinks():
 
 
 @app.route('/drinks-detail', methods=['GET'])
+@requires_auth('get:drinks-detail')
 def get_drinks_detail():
     drinks = Drink.query.order_by(Drink.title).all()
     data = {'success': True,
@@ -86,7 +87,7 @@ def get_drinks_detail():
 
 
 '''
-@TODO implement endpoint
+@DONE implement endpoint
     POST /drinks
         it should create a new row in the drinks table
         it should require the 'post:drinks' permission
@@ -97,6 +98,7 @@ def get_drinks_detail():
 
 
 @app.route('/drinks', methods=['POST'])
+@requires_auth('post:drinks')
 def post_drink():
     body = request.get_json()
 
@@ -125,7 +127,7 @@ def post_drink():
 
 
 '''
-@TODO implement endpoint
+@DONE implement endpoint
     PATCH /drinks/<id>
         where <id> is the existing model id
         it should respond with a 404 error if <id> is not found
@@ -138,6 +140,7 @@ def post_drink():
 
 
 @app.route('/drinks/<int:id>', methods=['PATCH'])
+@requires_auth('patch:drinks')
 def patch_drink(id):
     drink = Drink.query.get(id)
     if drink is None:
@@ -166,7 +169,7 @@ def patch_drink(id):
 
 
 '''
-@TODO implement endpoint
+@DONE implement endpoint
     DELETE /drinks/<id>
         where <id> is the existing model id
         it should respond with a 404 error if <id> is not found
@@ -178,6 +181,7 @@ def patch_drink(id):
 
 
 @app.route('/drinks/<int:id>', methods=['DELETE'])
+@requires_auth('delete:drinks')
 def delete_drink(id):
     drink = Drink.query.get(id)
     if drink is None:
