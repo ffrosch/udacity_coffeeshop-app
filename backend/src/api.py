@@ -112,6 +112,18 @@ def post_drink(jwt):
     except:
         abort(400)
 
+    recipe_ok = all(
+        [len(title) > 0] +
+        [
+            len(r['name']) > 0 and
+            len(r['color']) > 0 and
+            r['parts'] > 0
+            for r in recipe
+        ]
+    )
+    if not recipe_ok:
+        abort(400)
+
     try:
         new_drink = Drink()
         new_drink.title = title
